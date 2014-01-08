@@ -13,6 +13,6 @@ public class Address
 	@Override
 	public String toString()
 	{
-		return (AD + " " + MODE.MODE);
+		return (AD + " " + MODE.mode);
 	}
 }
