@@ -8,5 +8,5 @@ public enum InstructionModifier
 	F, // Both A and B
 	X, //Swap and move A and B
 	I, //Full Instruction
-		
+	
 }

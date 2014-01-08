@@ -1,12 +1,14 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 
-/**
- *
- * @author zchen0704
- */
-public class Register {
+public class Register
+{
+	public final Instruction instruction;
+	public final Address aSpace;
+	public final Address bSpace;
 	
+	Register(Instruction op, Address a, Address b)
+	{
+		instruction = op;
+		aSpace = a;
+		bSpace = b;
+	}
 }
