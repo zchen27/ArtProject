@@ -20,4 +20,7 @@ public enum Instruction
 		LDP, //LOAD FROM P-SPACE
 		STP, //SAVE TO P-SPACE
 		NOP, //NO OPERATION
+		AND, //BINARY AND
+		ORR, //BINARY OR
+		NOT, //UNARY NEGATION
 }
