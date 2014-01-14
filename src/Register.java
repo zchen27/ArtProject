@@ -1,14 +1,36 @@
 
 public class Register
 {
-	public final Instruction instruction;
-	public final Address aSpace;
-	public final Address bSpace;
+	private Instruction instruction;
+	private Modifier modifier;
+	private Address aSpace;
+	private Address bSpace;
 	
-	Register(Instruction op, Address a, Address b)
+	Register(Instruction op, Modifier mod, Address a, Address b)
 	{
 		instruction = op;
+		modifier = mod;
 		aSpace = a;
 		bSpace = b;
+	}
+	
+	public Instruction instruction()
+	{
+		return instruction;
+	}
+	
+	public Modifier modifier()
+	{
+		return modifier;
+	}
+	
+	public Address a()
+	{
+		return aSpace;
+	}
+	
+	public Address b()
+	{
+		return bSpace;
 	}
 }
