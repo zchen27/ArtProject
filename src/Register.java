@@ -1,36 +1,102 @@
 
 public class Register
 {
-	private Instruction instruction;
-	private Modifier modifier;
-	private Address aSpace;
-	private Address bSpace;
-	
-	Register(Instruction op, Modifier mod, Address a, Address b)
+	public enum Opcode
 	{
-		instruction = op;
-		modifier = mod;
-		aSpace = a;
-		bSpace = b;
+		DAT,
+		MOV,
+		ADD,
+		SUB,
+		MUL,
+		DIV,
+		MOD,
+		JMP,
+		JMZ,
+		JMN,
+		DJN,
+		SPL,
+		SEQ,
+		SNE,
+		CMP,
+		SLT,
+		NOP,
 	}
 	
-	public Instruction instruction()
+	public enum Modifier
 	{
-		return instruction;
+		A,
+		B,
+		AB,
+		BA,
+		F,
+		X,
+		I,
 	}
 	
-	public Modifier modifier()
+	public enum Mode
 	{
-		return modifier;
+		IMM,
+		DIR,
+		AID,
+		BID,
+		AIP,
+		BIP,
+		AIO,
+		BIO,
 	}
 	
-	public Address a()
+	private Opcode op;
+	private Modifier mod;
+	private Mode aMode;
+	private Mode bMode;
+	private int a;
+	private int b;
+	
+	public Opcode getop()
 	{
-		return aSpace;
+		return op;
 	}
 	
-	public Address b()
+	public Modifier getMod()
 	{
-		return bSpace;
+		return mod;
+	}
+	
+	public int getA()
+	{
+		return a;
+	}
+	
+	public int getB()
+	{
+		return b;
+	}
+	
+	public Mode getAMode()
+	{
+		return aMode;
+	}
+	
+	public Mode getBMode()
+	{
+		return bMode;
+	}
+	
+	public void setOp(Opcode newOp, Modifier newMod)
+	{
+		op = newOp;
+		mod = newMod;
+	}
+	
+	public void setA(Mode newAMode, int newA)
+	{
+		aMode = newAMode;
+		a = newA;
+	}
+	
+	public void setB(Mode newBMode, int newB)
+	{
+		bMode = newBMode;
+		b = newB;
 	}
 }
