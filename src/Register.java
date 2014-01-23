@@ -1,102 +1,79 @@
 
 public class Register
 {
-	public enum Opcode
+	//Opcodes
+	public static final byte DAT = 0x00;
+	public static final byte MOV = 0x01;
+	public static final byte ADD = 0x02;
+	public static final byte SUB = 0x03;
+	public static final byte JMP = 0x04;
+	public static final byte JMZ = 0x05;
+	public static final byte JMN = 0x06;
+	public static final byte CMP = 0x07;
+	public static final byte SLT = 0x08;
+	public static final byte DJN = 0x09;
+	public static final byte SPL = 0x0A;
+	
+	//Access Modes
+	public static final byte IMMEDIATE = 0x00;
+	public static final byte DIRECT = 0x01;
+	public static final byte INDIRECT = 0x02;
+	
+	
+	//Timing
+	public static final byte PRE = 0x00;
+	public static final byte POST = 0x01;
+	
+	//Actions
+	public static final byte NONE = 0x00;
+	public static final byte DECREMENT = 0x01;
+	
+	public byte op;
+	public byte mod;
+	public byte aMod;
+	public byte bMod;
+	public int aFld;
+	public int bFld;
+	
+	public Register()
 	{
-		DAT,
-		MOV,
-		ADD,
-		SUB,
-		MUL,
-		DIV,
-		MOD,
-		JMP,
-		JMZ,
-		JMN,
-		DJN,
-		SPL,
-		SEQ,
-		SNE,
-		CMP,
-		SLT,
-		NOP,
+		op = DAT;
+		aMod = DIRECT;
+		bMod = DIRECT;
+		aFld = 0;
+		bFld = 0;
 	}
 	
-	public enum Modifier
+	public void copy(Register r)
 	{
-		A,
-		B,
-		AB,
-		BA,
-		F,
-		X,
-		I,
+		op = r.op;
+		mod = r.mod;
+		aMod = r.aMod;
+		bMod = r.bMod;
+		aFld = r.aFld;
+		bFld = r.bFld;
 	}
 	
-	public enum Mode
+	public boolean equals(Register reg)
 	{
-		IMM,
-		DIR,
-		AID,
-		BID,
-		AIP,
-		BIP,
-		AIO,
-		BIO,
+		if((this.op != reg.op) || (this.mod != reg.mod)
+			|| (this.aMod != reg.aMod) || (this.bMod != reg.bMod)
+			|| (this.aFld != reg.aFld) || (this.bFld != reg.bFld))
+		{
+			return false;
+		}
+		return true;
 	}
 	
-	private Opcode op;
-	private Modifier mod;
-	private Mode aMode;
-	private Mode bMode;
-	private int a;
-	private int b;
-	
-	public Opcode getop()
+	@Override
+	public boolean equals(Object obj)
 	{
-		return op;
+		if(obj instanceof Register)
+		{
+			equals((Register) obj);
+		}
+		return false;
 	}
 	
-	public Modifier getMod()
-	{
-		return mod;
-	}
-	
-	public int getA()
-	{
-		return a;
-	}
-	
-	public int getB()
-	{
-		return b;
-	}
-	
-	public Mode getAMode()
-	{
-		return aMode;
-	}
-	
-	public Mode getBMode()
-	{
-		return bMode;
-	}
-	
-	public void setOp(Opcode newOp, Modifier newMod)
-	{
-		op = newOp;
-		mod = newMod;
-	}
-	
-	public void setA(Mode newAMode, int newA)
-	{
-		aMode = newAMode;
-		a = newA;
-	}
-	
-	public void setB(Mode newBMode, int newB)
-	{
-		bMode = newBMode;
-		b = newB;
-	}
+
 }
