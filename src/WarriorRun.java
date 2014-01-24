@@ -1,9 +1,8 @@
 
 public class WarriorRun
 {
-	private int pointer;
-	private WarriorRun next;
-        private WarriorRun previous;
-        private Warrior war;
-        
+	public int pointer;
+	private Warrior war;
+	public boolean alive = true;
+	
 }
