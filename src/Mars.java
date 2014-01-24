@@ -17,4 +17,6 @@ public class Mars
 		MAXLENGTH = maxlength;
 		MINDISTANCE = mindistance;
 	}
+        
+        
 }
