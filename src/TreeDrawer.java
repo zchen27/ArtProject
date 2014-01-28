@@ -1,100 +1,106 @@
 import java.awt.*;
 import java.awt.event.*;
-import java.util.*;
+import java.awt.geom.*;
+//import java.util.*;
 import javax.swing.*;
 
-public class TreeDrawer implements MouseListener
+public class TreeDrawer implements ActionListener
 {
-	private ArrayList<Branch> branches = new ArrayList();
-	public final int xi = 250;
-	public final int li = 128;
+	private int treeStep;
+	private static final double MIN_RATIO = 1.41;
+	private static final double MAX_RATIO = 3;
+	private static final int MAX_STEP = 500;
+	private static final int MAX_STAGE = 10;
+	private static final double ANGLE = Math.PI/3;
+	private static int L = 250;
+	private static int W = 20;
+	private double ratio = MIN_RATIO;
+
 	
-	public class Branch
+	private Timer timer;
+	
+	TreeDrawer()
 	{
-		public final int x0;
-		public final int y0;
-		public final int xf;
-		public final int yf;
-		public final int length;
-		public final double angle;
-		public final Color color;
+		//this.timer = new Timer(100, this);
+		treeStep = 0;
+		//timer.start();
+		JFrame frame = new TreeFrame();
+		frame.setBackground(Color.yellow);
+		frame.pack();
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setVisible(true);
 		
-		Branch(int xstart, int ystart, int l, double theta, Color c)
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e)
+	{
+		//changeRatio();
+		
+		//if(treeStep < MAX_STEP)
 		{
-			x0 = xstart;
-			y0 = ystart;
-			length = l;
-			angle = theta;
-			color = c;
-			xf = x0 + (int)(length * Math.cos(theta));
-			yf = y0 + (int)(length * Math.sin(theta));
+			//treeStep++;
 		}
 	}
 	
-	TreeDrawer(Color color)
-	{
-		branches.add(new Branch(xi, 0, li, 0, color));
-	}
-	
-	public class TreePanel extends JPanel
+	public class TreeFrame extends JFrame
 	{
 		@Override
-		public void paintComponent(Graphics g)
+		public void paint(Graphics g)
 		{
-			super.paintComponents(g);
+			Graphics2D g2d = (Graphics2D) g;
+			g2d.setColor(Color.green);
+			
+			g2d.translate(250, -500);
+			drawBranch(g2d, L, W);
+			g2d.translate(0, -L);
+			drawBranches(g2d, 1);
+			g2d.translate(0, L);
+			g2d.translate(-250, 500);
 		}
-	}
-	
-	private void generateBranches(int x0, int y0, int length, double theta, Color color)
-	{
-		Branch currentBranch0 = new Branch(x0, y0, length, Math.PI - theta, color);
-		Branch currentBranch1 = new Branch(x0, y0, length, Math.PI + theta, color);
-		branches.add(currentBranch0);
-		branches.add(currentBranch1);
-		Color nextColor = color.darker();
 		
-		if(length > 1)
+		private void drawBranches(Graphics2D g, double stage)
 		{
-			generateBranches(currentBranch0.xf, currentBranch0.yf, length/2, theta, nextColor);
-			generateBranches(currentBranch1.xf, currentBranch1.yf, length/2, theta, nextColor);
+			double currentRatio = Math.pow(ratio, stage);
+			double newLength = (double) L / currentRatio;
+			double newWidth = (double) W / currentRatio;
+			
+			if(newLength < 3 || stage > 10)
+			{
+				return;
+			}
+			
+			g.rotate(ANGLE);
+			drawBranch(g, newLength, newWidth);
+			g.translate(0, -newLength);
+			drawBranches(g, stage + 1);
+			g.translate(0, newLength);
+			g.rotate(-ANGLE);
+			
+			g.rotate(-ANGLE);
+			drawBranch(g, newLength, newWidth);
+			g.translate(0, -newLength);
+			drawBranches(g, stage + 1);
+			g.translate(0, newLength);
+			g.rotate(ANGLE);
+			
 		}
-	}
-	
-	@Override
-	public void mouseClicked(MouseEvent e)
-	{
-		int x = e.getXOnScreen();
-		int y = e.getYOnScreen();
-		double theta = Math.atan2(y, x);
-		Branch branch0 = branches.get(0);
-		int x0 = branch0.xf;
-		int y0 = branch0.yf;
-		Color color = branch0.color.darker();
-		generateBranches(x0, y0, branch0.length / 2, theta, color);
+		
+		private void drawBranch(Graphics2D g, double l, double w)
+		{
+			g.setStroke(new BasicStroke((float) Math.floor(w)));
+			g.draw(new Line2D.Double(0, 0, 0, -l));
+		}
 		
 	}
 	
-	@Override
-	public void mousePressed(MouseEvent e)
+	/*private void changeRatio()
 	{
-		
-	}
-
-	@Override
-	public void mouseReleased(MouseEvent e)
+		ratio = (1 - treeStep) * (MAX_RATIO - MIN_RATIO) + MIN_RATIO;
+	}*/
+	
+	public static void main(String[] args)
 	{
-		
-	}
-
-	@Override
-	public void mouseEntered(MouseEvent e)
-	{
-		
-	}
-
-	@Override
-	public void mouseExited(MouseEvent e)
-	{
-		
+		TreeDrawer t = new TreeDrawer();
 	}
 }
